@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>報價單列表 · 右側導覽三提案</title>
+<style>
+  :root {
+    --bg: #f4f5f7;
+    --card: #fff;
+    --text: #1a1a1a;
+    --muted: #8a8f98;
+    --line: #eceef2;
+    --draft: #f3f4f6;
+    --draft-t: #6b7280;
+    --ok: #ecfdf5;
+    --ok-t: #059669;
+    --accent: #2563eb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 16px 12px 48px;
+  }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  section { margin-bottom: 28px; }
+  .label {
+    font-size: 12px; font-weight: 600; letter-spacing: 0.02em;
+    color: var(--muted); text-transform: uppercase; margin: 0 0 8px 4px;
+  }
+  .phone {
+    max-width: 390px; margin: 0 auto;
+    background: #e8eaed; border-radius: 24px; padding: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,.08);
+  }
+  .list { background: var(--bg); border-radius: 16px; padding: 8px; }
+  .card {
+    display: flex; align-items: stretch; gap: 10px;
+    background: var(--card); border-radius: 14px;
+    padding: 12px 12px 12px 10px; margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.04);
+  }
+  .card:last-child { margin-bottom: 0; }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg,#93c5fd,#6366f1);
+    color: #fff; font-size: 13px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .main { flex: 1; min-width: 0; }
+  .badge {
+    display: inline-block; font-size: 11px; font-weight: 600;
+    padding: 2px 8px; border-radius: 999px; margin-bottom: 4px;
+  }
+  .badge.draft { background: var(--draft); color: var(--draft-t); }
+  .badge.ok { background: var(--ok); color: var(--ok-t); }
+  .title {
+    font-size: 14px; font-weight: 600; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .owner { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* —— Proposal A: amount + date stacked, no chevron; whole card tappable —— */
+  .a-right {
+    display: flex; flex-direction: column; align-items: flex-end;
+    justify-content: center; gap: 4px; flex-shrink: 0; min-width: 72px;
+  }
+  .a-amt { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; }
+  .a-date { font-size: 12px; color: var(--muted); }
+
+  /* —— Proposal B: amount | date on one row; slim pill chevron —— */
+  .b-right {
+    display: flex; flex-direction: column; align-items: flex-end;
+    justify-content: center; gap: 6px; flex-shrink: 0;
+  }
+  .b-amt { font-size: 15px; font-weight: 700; }
+  .b-row { display: flex; align-items: center; gap: 6px; }
+  .b-date { font-size: 12px; color: var(--muted); }
+  .b-pill {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: #f1f5f9; color: #64748b;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .b-pill svg { width: 12px; height: 12px; }
+
+  /* —— Proposal C: right rail — amount top, date mid, chevron alone in gutter —— */
+  .c-wrap { display: flex; align-items: stretch; gap: 8px; flex-shrink: 0; }
+  .c-meta {
+    display: flex; flex-direction: column; align-items: flex-end;
+    justify-content: center; gap: 4px;
+  }
+  .c-amt { font-size: 15px; font-weight: 700; }
+  .c-date { font-size: 12px; color: var(--muted); }
+  .c-gutter {
+    width: 20px; display: flex; align-items: center; justify-content: center;
+    border-left: 1px solid var(--line); padding-left: 8px; margin-left: 2px;
+    color: #94a3b8;
+  }
+  .c-gutter svg { width: 14px; height: 14px; }
+
+  .note {
+    max-width: 390px; margin: 8px auto 0; font-size: 12px;
+    color: var(--muted); line-height: 1.5; padding: 0 4px;
+  }
+  .pick {
+    max-width: 390px; margin: 24px auto 0; text-align: center;
+    font-size: 13px; color: var(--accent); font-weight: 600;
+  }
+</style>
+</head>
+<body>
+  <h1>報價單／訂單列表 · 右側三提案</h1>
+  <p class="sub">取代「金額 + 日期 + 展開箭頭」擠在一欄的現況。手機寬度預覽。</p>
+
+  <section>
+    <div class="label">A · 無箭頭 · 整卡可點</div>
+    <div class="phone"><div class="list">
+      <div class="card">
+        <div class="avatar">陳</div>
+        <div class="main">
+          <span class="badge draft">草稿</span>
+          <div class="title">傑米室內設計-浴缸大板磚連工帶料報價</div>
+          <div class="owner">陳奕安</div>
+        </div>
+        <div class="a-right">
+          <div class="a-amt">26,621</div>
+          <div class="a-date">09-23</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="avatar">陳</div>
+        <div class="main">
+          <span class="badge ok">已核准</span>
+          <div class="title">三希堂-廚具專案報價</div>
+          <div class="owner">陳奕安</div>
+        </div>
+        <div class="a-right">
+          <div class="a-amt">106,484</div>
+          <div class="a-date">09-23</div>
+        </div>
+      </div>
+    </div></div>
+    <p class="note">右側只留金額＋日期（間距 4px），拿掉 chevron。列表列本來就可點進詳情，少一個視覺元素就不會跟日期搶位。</p>
+  </section>
+
+  <section>
+    <div class="label">B · 日期旁小圓鈕箭頭</div>
+    <div class="phone"><div class="list">
+      <div class="card">
+        <div class="avatar">陳</div>
+        <div class="main">
+          <span class="badge draft">草稿</span>
+          <div class="title">傑米室內設計-浴缸大板磚連工帶料報價</div>
+          <div class="owner">陳奕安</div>
+        </div>
+        <div class="b-right">
+          <div class="b-amt">26,621</div>
+          <div class="b-row">
+            <span class="b-date">09-23</span>
+            <span class="b-pill" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="avatar">陳</div>
+        <div class="main">
+          <span class="badge ok">已核准</span>
+          <div class="title">三希堂-廚具專案報價</div>
+          <div class="owner">陳奕安</div>
+        </div>
+        <div class="b-right">
+          <div class="b-amt">106,484</div>
+          <div class="b-row">
+            <span class="b-date">09-23</span>
+            <span class="b-pill" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 6l6 6-6 6"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <p class="note">金額單獨一行；日期與「進詳情」小圓鈕橫排。箭頭不跟日期垂直疊，語意是向右進，不是向下展開。</p>
+  </section>
+
+  <section>
+    <div class="label">C · 右側分隔欄放箭頭</div>
+    <div class="phone"><div class="list">
+      <div class="card">
+        <div class="avatar">陳</div>
+        <div class="main">
+          <span class="badge draft">草稿</span>
+          <div class="title">傑米室內設計-浴缸大板磚連工帶料報價</div>
+          <div class="owner">陳奕安</div>
+        </div>
+        <div class="c-wrap">
+          <div class="c-meta">
+            <div class="c-amt">26,621</div>
+            <div class="c-date">09-23</div>
+          </div>
+          <div class="c-gutter" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="avatar">陳</div>
+        <div class="main">
+          <span class="badge ok">已核准</span>
+          <div class="title">三希堂-廚具專案報價</div>
+          <div class="owner">陳奕安</div>
+        </div>
+        <div class="c-wrap">
+          <div class="c-meta">
+            <div class="c-amt">106,484</div>
+            <div class="c-date">09-23</div>
+          </div>
+          <div class="c-gutter" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </div>
+      </div>
+    </div></div>
+    <p class="note">金額／日期自成一欄；細豎線右邊單獨放 chevron，像 iOS 設定列。資訊區與導覽區分開，不會重疊。</p>
+  </section>
+
+  <p class="pick">回覆 A / B / C，或混搭（例如 A 的無箭頭 + C 的間距）。</p>
+</body>
+</html>
